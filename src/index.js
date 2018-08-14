@@ -17,6 +17,15 @@ const {
 
 const homedir = require("os").homedir();
 const appsConfigPath = `${homedir}/apps.json`;
+
+if (!fs.existsSync(appsConfigPath)) {
+  fs.writeFileSync(
+    appsConfigPath,
+    JSON.stringify({ cask: [], mas: [] }, null, 2),
+    "utf8"
+  );
+}
+
 let apps = require(appsConfigPath);
 
 program
