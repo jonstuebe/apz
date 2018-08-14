@@ -5,6 +5,7 @@ const clear = require("clear");
 const program = require("commander");
 const fs = require("fs");
 const chalk = require("chalk");
+const _ = require("lodash");
 
 const pkg = require("../package.json");
 const {
@@ -12,21 +13,15 @@ const {
   caskInstall,
   masSearch,
   masInstall,
-  numApps
+  numApps,
+  getConfig,
+  appsConfigPath,
+  createOrUpdateGist,
+  updateConfig,
+  downloadGist
 } = require("./utils");
 
-const homedir = require("os").homedir();
-const appsConfigPath = `${homedir}/apps.json`;
-
-if (!fs.existsSync(appsConfigPath)) {
-  fs.writeFileSync(
-    appsConfigPath,
-    JSON.stringify({ cask: [], mas: [] }, null, 2),
-    "utf8"
-  );
-}
-
-let apps = require(appsConfigPath);
+let apps = getConfig();
 
 program
   .command("install")
@@ -62,6 +57,51 @@ program
         { concurrency: 1 }
       );
     }
+  });
+
+program
+  .command("token")
+  .description("Add a github personal access token")
+  .action(() => {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "token",
+          message: "Enter the personal access token from github:"
+        }
+      ])
+      .then(({ token }) => {
+        let apps = getConfig();
+        apps.token = token;
+        updateConfig(apps);
+        console.log(chalk.green("Config Updated"));
+      });
+  });
+
+program
+  .command("restore")
+  .description("Restore config from gist")
+  .action(() => {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "gist",
+          message: "Enter the id of the gist that contains your config:"
+        }
+      ])
+      .then(({ gist }) => {
+        downloadGist(gist)
+          .then(apps => {
+            updateConfig(apps);
+            console.log(chalk.green("Config restored"));
+          })
+          .catch(err => {
+            console.log(chalk.red(err.message));
+            return;
+          });
+      });
   });
 
 program
@@ -106,28 +146,41 @@ program
         }
       ])
       .then(async results => {
+        let toUpdate = false;
+        let res;
         switch (results.source) {
           case "cask":
             if (!apps.cask) {
               apps.cask = [];
             }
 
-            await caskInstall(results.appChosen);
-            apps.cask.push(results.appChosen);
-            apps.cask.sort();
+            res = await caskInstall(results.appChosen);
+            if (!apps.cask.includes(results.appChosen)) {
+              apps.cask.push(results.appChosen);
+              apps.cask.sort();
+              toUpdate = true;
+            }
             break;
           case "mas":
             if (!apps.mas) {
               apps.mas = [];
             }
 
-            await masInstall(results.appChosen);
-            apps.mas.push(results.appChosen);
-            apps.mas.sort();
+            res = await masInstall(results.appChosen);
+            if (!_.find(apps.mas, results.appChosen)) {
+              apps.mas.push(results.appChosen);
+              apps.mas.sort();
+              toUpdate = true;
+            }
             break;
         }
 
-        fs.writeFileSync(appsConfigPath, JSON.stringify(apps, null, 2));
+        if (toUpdate) {
+          updateConfig(apps);
+          await createOrUpdateGist(apps).catch(err => {
+            console.log(chalk.red(err.message));
+          });
+        }
         console.log(chalk.green("App Installed"));
       });
   });

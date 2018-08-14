@@ -1,6 +1,9 @@
+const inquirer = require("inquirer");
 const { exec } = require("child_process");
 const { isArray } = require("lodash");
 const Promise = require("bluebird");
+const Gists = require("gists");
+const fs = require("fs");
 
 const numApps = apps => {
   let num = 0;
@@ -125,10 +128,118 @@ const masInstall = (apps = []) => {
   });
 };
 
+const homedir = require("os").homedir();
+const appsConfigPath = `${homedir}/apps.json`;
+
+const getConfig = () => {
+  if (!fs.existsSync(appsConfigPath)) {
+    fs.writeFileSync(
+      appsConfigPath,
+      JSON.stringify({ cask: [], mas: [] }, null, 2),
+      "utf8"
+    );
+  }
+  let apps = require(appsConfigPath);
+  return apps;
+};
+
+const updateConfig = apps => {
+  fs.writeFileSync(appsConfigPath, JSON.stringify(apps, null, 2));
+  return true;
+};
+
+const createGist = (gists, apps) => {
+  return new Promise((resolve, reject) => {
+    gists.create(
+      {
+        files: { "apps.json": { content: JSON.stringify(apps, null, 2) } },
+        description: "apz apps config"
+      },
+      (err, res) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(res);
+      }
+    );
+  });
+};
+
+const editGist = (gists, apps) => {
+  return new Promise((resolve, reject) => {
+    gists.edit(
+      {
+        id: apps.gist,
+        files: { "apps.json": { content: JSON.stringify(apps, null, 2) } }
+      },
+      (err, res) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(res);
+      }
+    );
+  });
+};
+
+const downloadGist = id => {
+  return new Promise((resolve, reject) => {
+    const apps = getConfig();
+    if (!apps.token) {
+      return reject(new Error(noTokenErrorMessage));
+    }
+    const gists = new Gists({
+      token: apps.token
+    });
+    gists.download({ id }, (err, res) => {
+      if (err) {
+        return reject(err);
+      }
+      if (!res.files["apps.json"]) {
+        return reject(new Error("incorrect gist provided"));
+      }
+      return resolve(JSON.parse(res.files["apps.json"].content));
+    });
+  });
+};
+
+const noTokenErrorMessage = "Please run the command `apz token`";
+
+const createOrUpdateGist = async apps => {
+  if (!apps.token) {
+    throw new Error(noTokenErrorMessage);
+    return;
+  }
+  const gists = new Gists({
+    token: apps.token
+  });
+  let res;
+  if (!apps.gist) {
+    res = await createGist(gists, apps);
+    apps.gist = res.id;
+    updateConfig(apps);
+    await editGist(gists, apps);
+  } else {
+    let res = await editGist(gists, apps);
+    if (res.message === "Not Found") {
+      res = await createGist(gists, apps);
+      apps.gist = res.id;
+      updateConfig(apps);
+      await editGist(gists, apps);
+    }
+  }
+};
+
 module.exports = {
   numApps,
   masSearch,
   caskSearch,
   caskInstall,
-  masInstall
+  masInstall,
+  getConfig,
+  createOrUpdateGist,
+  homedir,
+  appsConfigPath,
+  updateConfig,
+  downloadGist
 };
