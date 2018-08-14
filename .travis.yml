@@ -13,7 +13,7 @@ env:
     - GIT_NAME: Travis CI
     - GIT_EMAIL: jstuebe@gmail.com
     - GITHUB_REPO: jonstuebe/apz
-    - GIT_SOURCE: docs
+    - GIT_SOURCE: _docpress
 
 install:
   - npm install
