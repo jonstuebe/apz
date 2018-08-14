@@ -1,19 +1,19 @@
-import inquirer from "inquirer";
-import Promise from "bluebird";
-import ora from "ora";
-import clear from "clear";
-import program from "commander";
-import fs from "fs";
+const inquirer = require("inquirer");
+const Promise = require("bluebird");
+const ora = require("ora");
+const clear = require("clear");
+const program = require("commander");
+const fs = require("fs");
+const chalk = require("chalk");
 
-import pkg from "../package.json";
-import {
+const pkg = require("../package.json");
+const {
   caskSearch,
   caskInstall,
   masSearch,
   masInstall,
   numApps
-} from "./utils";
-import chalk from "chalk";
+} = require("./utils");
 
 const homedir = require("os").homedir();
 const appsConfigPath = `${homedir}/apps.json`;

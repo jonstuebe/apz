@@ -1,8 +1,8 @@
-import { exec } from "child_process";
-import { isArray } from "lodash";
-import Promise from "bluebird";
+const { exec } = require("child_process");
+const { isArray } = require("lodash");
+const Promise = require("bluebird");
 
-export const numApps = apps => {
+const numApps = apps => {
   let num = 0;
   if (apps.mas) {
     num += apps.mas.length;
@@ -15,7 +15,7 @@ export const numApps = apps => {
   return num;
 };
 
-export const masSearch = query => {
+const masSearch = query => {
   return new Promise((resolve, reject) => {
     exec(`mas search "${query}"`, (error, stdout, stderr) => {
       if (error) {
@@ -51,7 +51,7 @@ export const masSearch = query => {
   });
 };
 
-export const caskSearch = query => {
+const caskSearch = query => {
   return new Promise((resolve, reject) => {
     exec(`brew search ${query}`, (error, stdout, stderr) => {
       if (error) {
@@ -74,7 +74,7 @@ export const caskSearch = query => {
   });
 };
 
-export const caskInstall = (apps = []) => {
+const caskInstall = (apps = []) => {
   if (typeof apps === "string") {
     apps = [apps];
   }
@@ -103,7 +103,7 @@ export const caskInstall = (apps = []) => {
   });
 };
 
-export const masInstall = (apps = []) => {
+const masInstall = (apps = []) => {
   if (!isArray(apps)) {
     apps = [apps];
   }
@@ -128,4 +128,12 @@ export const masInstall = (apps = []) => {
       });
     });
   });
+};
+
+module.exports = {
+  numApps,
+  masSearch,
+  caskSearch,
+  caskInstall,
+  masInstall
 };
