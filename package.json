@@ -1,0 +1,42 @@
+{
+  "name": "apz",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": ">=7"
+  },
+  "bin": {
+    "apz": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jonstuebe/apz.git"
+  },
+  "keywords": [
+    "homebrew",
+    "brew",
+    "app-store",
+    "mas",
+    "app",
+    "apps"
+  ],
+  "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "bluebird": "^3.5.1",
+    "chalk": "^2.4.1",
+    "clear": "^0.1.0",
+    "commander": "^2.17.1",
+    "inquirer": "^6.1.0",
+    "lodash": "^4.17.10",
+    "ora": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
