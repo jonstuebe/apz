@@ -9,6 +9,7 @@ Make sure you have the following installed:
 - xcode
 - homebrew
 - nodejs (or nvm)
+- mas (via brew)
 
 ## Install
 
