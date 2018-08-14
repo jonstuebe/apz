@@ -1,0 +1,13 @@
+language: node_js
+sudo: required
+os: osx
+osx_image: xcode8.3
+node_js:
+  - "8"
+before_install:
+  - brew install mas
+  # - mas signin $MAS_EMAIL "$MAS_PASSWORD"
+install:
+  - npm install
+script:
+  - npm test

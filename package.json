@@ -31,9 +31,13 @@
     "lodash": "^4.17.10",
     "ora": "^3.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "docpress": "^0.7.1",
+    "jest": "^23.5.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "docs": "docpress serve"
   },
   "author": "",
   "license": "MIT"
