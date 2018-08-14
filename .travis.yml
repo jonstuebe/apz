@@ -7,7 +7,18 @@ node_js:
 before_install:
   - brew install mas
   # - mas signin $MAS_EMAIL "$MAS_PASSWORD"
+
+env:
+  global:
+    - GIT_NAME: Travis CI
+    - GIT_EMAIL: jstuebe@gmail.com
+    - GITHUB_REPO: jonstuebe/apz
+    - GIT_SOURCE: docs
+
 install:
   - npm install
 script:
   - npm test
+  - npm run build-docs
+after_success:
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then ./node_modules/.bin/git-update-ghpages -e; fi
