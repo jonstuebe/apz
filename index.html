@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/style.css?t=615badd5">
+    <link rel="stylesheet" href="style.css?t=93d5ba49">
+    <script src="assets/script.js?t=42463e55"></script>
+    <title>apz</title>
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1"><a class="link title -active link-index" href="index.html">apz</a>
+            </li>
+            <li class="menu-item -level-1"><a class="link title link-prerequisites" href="#prerequisites">Prerequisites</a>
+            </li>
+            <li class="menu-item -level-1"><a class="link title link-install" href="#install">Install</a>
+            </li>
+            <li class="menu-item -level-1"><a class="link title link-setup" href="#setup">Setup</a>
+            </li>
+            <li class="menu-item -level-1"><a class="link title link-commands" href="#commands">Commands</a>
+            </li>
+          </ul>
+        </li>
+      </div>
+      <div class="body page-index">
+        <div class="header-nav">
+          <div class="right">
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="apz">apz</h1>
+<p>A small utility to help with installing and managing your apps.</p>
+<p><img src="https://travis-ci.com/jonstuebe/apz.svg?branch=master" alt="build status" title="Build Status"></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Make sure you have the following installed:</p>
+<ul>
+<li>xcode</li>
+<li>homebrew</li>
+<li>mas (via brew)</li>
+<li>nodejs (or nvm)</li>
+</ul>
+<h2 id="install">Install</h2>
+<pre><code class="lang-shell">npm install -g apz
+</code></pre>
+<h2 id="setup">Setup</h2>
+<p>To get started, you&apos;ll need to go create a personal access token on github and allow it to create/edit gists.</p>
+<p>Once you&apos;ve completed this, run the following:</p>
+<pre><code class="lang-shell">apz token
+</code></pre>
+<p>This will add your token to the config and allow you to run any of the following commands:</p>
+<h2 id="commands">Commands</h2>
+<h4 id="add-an-app">Add an App</h4>
+<p>To add an application to the global config as well as install it run:</p>
+<pre><code class="lang-shell">apz add
+</code></pre>
+<h4 id="install-all-applications">Install All Applications</h4>
+<p>To install all applications from the global config ~/apps.json run:</p>
+<pre><code class="lang-shell">apz install
+</code></pre>
+<h4 id="restore-from-gist">Restore from Gist</h4>
+<p>To restore your config from a gist run:</p>
+<pre><code class="lang-shell">apz restore
+</code></pre>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
