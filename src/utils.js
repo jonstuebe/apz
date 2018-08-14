@@ -61,12 +61,7 @@ const caskSearch = query => {
 
       if (stdout) {
         const match = /==> Casks\n(.*)/.exec(stdout);
-        let results = match[1].split("\n").filter(result => {
-          if (result.includes("homebrew/") || result === "") {
-            return false;
-          }
-          return true;
-        });
+        let results = match[1].split("\n");
 
         return resolve(results);
       }
