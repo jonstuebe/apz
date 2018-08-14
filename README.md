@@ -2,6 +2,14 @@
 
 A small utility to help with installing and managing your apps.
 
+## Prerequisites
+
+Make sure you have the following installed:
+
+- xcode
+- homebrew
+- nodejs (or nvm)
+
 ## Install
 
 ```shell
