@@ -2,6 +2,8 @@
 
 A small utility to help with installing and managing your apps.
 
+![build status](https://travis-ci.com/jonstuebe/apz.svg?branch=master "Build Status")
+
 ## Prerequisites
 
 Make sure you have the following installed:
