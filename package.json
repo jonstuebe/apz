@@ -1,7 +1,8 @@
 {
   "name": "apz",
   "version": "0.2.0",
-  "description": "",
+  "homepage": "https://jonstuebe.github.io/apz",
+  "description": "A small utility to help with installing and managing your apps.",
   "main": "index.js",
   "engines": {
     "node": ">=7"
@@ -17,6 +18,7 @@
     "homebrew",
     "brew",
     "app-store",
+    "cask",
     "mas",
     "app",
     "apps"
@@ -41,6 +43,6 @@
     "docs": "docpress serve",
     "build-docs": "docpress build"
   },
-  "author": "",
+  "author": "Jon Stuebe <jstuebe@gmail.com>",
   "license": "MIT"
 }
