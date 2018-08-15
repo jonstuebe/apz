@@ -1,6 +1,6 @@
 {
   "name": "apz",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://jonstuebe.github.io/apz",
   "description": "A small utility to help with installing and managing your apps.",
   "main": "index.js",
